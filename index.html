@@ -1,38 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud Native Demo</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeVerse Academy</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="CodeVerse Academy home">
+        <span class="brand-mark">&lt;/&gt;</span>
+        <span>CodeVerse Academy</span>
+      </a>
 
-    <header>
-        <h1>Cloud Native Demo</h1>
-        <p>Deploying a Static Website on AWS</p>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#top" class="active">Home</a>
+        <a href="#languages">Courses</a>
+        <a href="#about">About</a>
+      </nav>
+
+      <button class="theme-toggle" type="button" aria-label="Toggle dark mode">
+        <span></span>
+      </button>
     </header>
 
-    <section class="cards">
-        <div class="card">
-            <h2>AWS</h2>
-            <p>Hosting on Amazon Web Services.</p>
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Interactive coding tutorials</p>
+          <h1>Learn Programming The Easy Way</h1>
+          <p class="hero-text">
+            Explore lessons, examples, quizzes, and syllabus-based roadmaps for
+            the most popular programming languages.
+          </p>
+
+          <div class="hero-actions">
+            <label class="hero-search" for="heroSearch">
+              <span class="search-symbol" aria-hidden="true"></span>
+              <input id="heroSearch" type="search" placeholder="Search for tutorials..." />
+            </label>
+            <button class="primary-btn" type="button" id="startLearning">
+              Start Learning <span aria-hidden="true">-&gt;</span>
+            </button>
+          </div>
         </div>
 
-        <div class="card">
-            <h2>Docker</h2>
-            <p>Containerized for easy deployment.</p>
+        <div class="hero-visual" aria-label="Programming course illustration">
+          <div class="floating-badge badge-html">HTML</div>
+          <div class="floating-badge badge-css">CSS</div>
+          <div class="floating-badge badge-js">JS</div>
+          <div class="floating-badge badge-py">PY</div>
+          <div class="code-window">
+            <div class="window-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="code-line wide"></div>
+            <div class="code-line medium"></div>
+            <div class="code-line short"></div>
+            <div class="code-line medium alt"></div>
+            <div class="code-line wide"></div>
+            <div class="code-line short alt"></div>
+          </div>
+          <div class="student-card">
+            <div class="student-head"></div>
+            <div class="student-body"></div>
+            <div class="laptop"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="course-section" id="languages">
+        <div class="section-heading">
+          <p class="eyebrow">Choose a path</p>
+          <h2>Popular Programming Languages</h2>
         </div>
 
-        <div class="card">
-            <h2>Kubernetes</h2>
-            <p>Scalable and cloud-native deployment.</p>
+        <div class="language-grid" id="languageGrid" aria-live="polite"></div>
+      </section>
+
+      <section class="info-band about-profile" id="about">
+        <div class="about-photo-wrap">
+          <img src="assets/veeresh-profile.jpeg" alt="Veeresh Basetti" class="about-photo" />
         </div>
-    </section>
 
-    <footer>
-        <p>© 2026 Cloud Native Project</p>
-    </footer>
+        <div class="about-details">
+          <p class="eyebrow">About</p>
+          <h2>Veeresh Basetti</h2>
+          <p class="about-intro">
+            Computer Science Engineering graduate from B.L.D.E.A.'s V.P. Dr.
+            P.G. Halakatti College of Engineering and Technology, Class of 2025.
+          </p>
 
-</body>
+          <dl class="profile-list">
+            <div>
+              <dt>Email</dt>
+              <dd><a href="mailto:veereshbasetti8@gmail.com">veereshbasetti8@gmail.com</a></dd>
+            </div>
+            <div>
+              <dt>Mobile</dt>
+              <dd><a href="tel:+917676004070">7676004070</a></dd>
+            </div>
+            <div>
+              <dt>LinkedIn</dt>
+              <dd>
+                <a href="https://www.linkedin.com/in/veeresh-basetti-802b042a5/" target="_blank" rel="noreferrer">
+                  veeresh basetti
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt>GitHub</dt>
+              <dd>
+                <a href="https://github.com/veeresh442" target="_blank" rel="noreferrer">
+                  veeresh442
+                </a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+    </main>
+
+    <script src="script.js"></script>
+  </body>
 </html>
