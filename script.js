@@ -64,6 +64,7 @@ const logoTemplates = {
 const courses = [
   {
     name: "HTML",
+    slug: "html",
     logo: "html",
     lessons: 35,
     examples: 120,
@@ -80,6 +81,7 @@ const courses = [
   },
   {
     name: "CSS",
+    slug: "css",
     logo: "css",
     lessons: 30,
     examples: 110,
@@ -96,6 +98,7 @@ const courses = [
   },
   {
     name: "JavaScript",
+    slug: "javascript",
     logo: "javascript",
     lessons: 40,
     examples: 150,
@@ -112,6 +115,7 @@ const courses = [
   },
   {
     name: "Python",
+    slug: "python",
     logo: "python",
     lessons: 45,
     examples: 160,
@@ -128,6 +132,7 @@ const courses = [
   },
   {
     name: "C",
+    slug: "c",
     logo: "c",
     lessons: 30,
     examples: 110,
@@ -144,6 +149,7 @@ const courses = [
   },
   {
     name: "C++",
+    slug: "cpp",
     logo: "cpp",
     lessons: 40,
     examples: 140,
@@ -160,6 +166,7 @@ const courses = [
   },
   {
     name: "Java",
+    slug: "java",
     logo: "java",
     lessons: 40,
     examples: 150,
@@ -176,6 +183,7 @@ const courses = [
   },
   {
     name: "SQL",
+    slug: "sql",
     logo: "sql",
     lessons: 30,
     examples: 100,
@@ -197,6 +205,9 @@ const heroSearch = document.querySelector("#heroSearch");
 const themeToggle = document.querySelector(".theme-toggle");
 const startLearning = document.querySelector("#startLearning");
 
+window.logoTemplates = logoTemplates;
+window.courseCatalog = courses;
+
 function getCourseText(course) {
   const syllabusText = course.syllabus
     .map(([module, topics]) => `${module} ${topics.join(" ")}`)
@@ -212,24 +223,17 @@ function renderCourses(filter = "") {
   grid.innerHTML = visibleCourses
     .map((course, index) => {
       const preview = course.preview.map((topic) => `<li>${topic}</li>`).join("");
-      const syllabus = course.syllabus
-        .map(([module, topics]) => {
-          const topicItems = topics.map((topic) => `<li>${topic}</li>`).join("");
-
-          return `
-            <li>
-              <span class="module-title">${module}</span>
-              <ul class="module-topics">${topicItems}</ul>
-            </li>
-          `;
-        })
-        .join("");
+      const courseUrl = `course.html?course=${course.slug}`;
 
       return `
         <article
           class="course-card"
           style="--accent: ${course.accent}; --button-text: ${course.buttonText};"
           data-course-index="${index}"
+          data-course-url="${courseUrl}"
+          role="link"
+          tabindex="0"
+          aria-label="Open ${course.name} theory in a new tab"
         >
           <div class="course-top">
             <div class="course-icon">${logoTemplates[course.logo]}</div>
@@ -244,14 +248,9 @@ function renderCourses(filter = "") {
 
           <ul class="topic-preview" aria-label="${course.name} quick topics">${preview}</ul>
 
-          <button class="card-btn" type="button" aria-expanded="false">
-            View ${course.name} Syllabus
-          </button>
-
-          <div class="syllabus">
-            <h4>${course.name} Syllabus</h4>
-            <ul class="module-list">${syllabus}</ul>
-          </div>
+          <a class="card-btn course-open-link" href="${courseUrl}" target="_blank" rel="noopener">
+            Open ${course.name} Theory
+          </a>
         </article>
       `;
     })
@@ -267,29 +266,76 @@ function syncSearch(value) {
   renderCourses(value);
 }
 
-grid.addEventListener("click", (event) => {
-  const button = event.target.closest(".card-btn");
+function openCourseCard(card) {
+  const courseUrl = card.dataset.courseUrl;
 
-  if (!button) {
-    return;
+  if (courseUrl) {
+    window.open(courseUrl, "_blank", "noopener");
   }
+}
 
-  const card = button.closest(".course-card");
-  const isOpen = card.classList.toggle("is-open");
-  button.setAttribute("aria-expanded", String(isOpen));
-  button.textContent = isOpen
-    ? `Hide ${card.querySelector(".course-name").textContent} Syllabus`
-    : `View ${card.querySelector(".course-name").textContent} Syllabus`;
-});
+if (grid && heroSearch && themeToggle && startLearning) {
+  grid.addEventListener("click", (event) => {
+    if (event.target.closest("a")) {
+      return;
+    }
 
-heroSearch.addEventListener("input", (event) => syncSearch(event.target.value));
+    const card = event.target.closest(".course-card");
 
-themeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-});
+    if (card) {
+      openCourseCard(card);
+    }
+  });
 
-startLearning.addEventListener("click", () => {
-  document.querySelector("#languages").scrollIntoView({ behavior: "smooth" });
-});
+  grid.addEventListener("pointermove", (event) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
 
-renderCourses();
+    const card = event.target.closest(".course-card");
+
+    if (!card || event.pointerType === "touch") {
+      return;
+    }
+
+    const bounds = card.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+    card.style.setProperty("--card-rx", `${-y * 8}deg`);
+    card.style.setProperty("--card-ry", `${x * 10}deg`);
+  });
+
+  grid.addEventListener("pointerout", (event) => {
+    const card = event.target.closest(".course-card");
+
+    if (card && !card.contains(event.relatedTarget)) {
+      card.style.removeProperty("--card-rx");
+      card.style.removeProperty("--card-ry");
+    }
+  });
+
+  grid.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    const card = event.target.closest(".course-card");
+
+    if (card) {
+      event.preventDefault();
+      openCourseCard(card);
+    }
+  });
+
+  heroSearch.addEventListener("input", (event) => syncSearch(event.target.value));
+
+  themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+  });
+
+  startLearning.addEventListener("click", () => {
+    document.querySelector("#languages").scrollIntoView({ behavior: "smooth" });
+  });
+
+  renderCourses();
+}
