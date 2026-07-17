@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: my-website
-        image: my-website:latest
+        image: my-website:v1
         imagePullPolicy: Never
         ports:
         - containerPort: 80
