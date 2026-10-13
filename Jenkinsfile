@@ -16,5 +16,12 @@ pipeline {
                 bat 'type Dockerfile'
             }
         }
+
+        stage('Check Docker') {
+            steps {
+                bat 'docker --version'
+                bat 'docker info'
+            }
+        }
     }
 }
