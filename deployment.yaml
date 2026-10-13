@@ -1,0 +1,22 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-website
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-website
+  template:
+    metadata:
+      labels:
+        app: my-website
+    spec:
+      containers:
+        - name: website
+          image: aws-web:v1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+
