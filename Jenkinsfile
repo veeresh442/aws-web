@@ -3,13 +3,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'master',
-                    url: 'https://github.com/veeresh442/aws-web.git'
-            }
-        }
-
         stage('Verify Source') {
             steps {
                 bat 'dir'
@@ -19,8 +12,7 @@ pipeline {
 
         stage('Check Docker') {
             steps {
-                bat 'docker --version'
-                bat 'docker info'
+                bat '"C:\\Users\\91789\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" --version'
             }
         }
     }
