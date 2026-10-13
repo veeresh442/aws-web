@@ -1,18 +1,20 @@
-pipeline{
+
+pipeline {
     agent any
 
-    stages{
-        stage("checkout"){
-            steps{
-                git branch:"main",
-                url :'https://github.com/veeresh442/aws-web.git'
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master',
+                    url: 'https://github.com/veeresh442/aws-web.git'
             }
         }
-        stage ("verify"){
-            steps{
-                bat "dir"
-                bat "type Dockerfile"
+
+        stage('Verify Source') {
+            steps {
+                bat 'dir'
+                bat 'type Dockerfile'
             }
         }
-    } 
+    }
 }
