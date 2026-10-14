@@ -404,7 +404,6 @@ The current Terraform configuration expects an AWS default VPC. If your account 
 - Review security group rules before applying Terraform in an AWS account.
 
 ## Suggested Future Enhancements
-
 - Rename `teraform/` to `terraform/` for clarity.
 - Remove the duplicate misspelled `deployement.yaml` file after confirming it is not needed.
 - Add a `.dockerignore` file.
